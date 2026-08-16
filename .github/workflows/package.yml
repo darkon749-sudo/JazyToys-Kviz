@@ -5,24 +5,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-      - name: Install Buildozer
+      - name: Build Android App
         run: |
           sudo apt-get update
           sudo apt-get install -y libffi-dev libssl-dev autoconf pkg-config
           pip install buildozer cython
-      - name: Build Android Package
-        run: |
           buildozer init
           sed -i 's/requirements = python3,kivy/requirements = python3,kivy/g' buildozer.spec
           sed -i 's/#orientation = landscape/orientation = portrait/g' buildozer.spec
           buildozer -v android debug
-      - name: Upload APK & AAB Artifacts
+      - name: Save APK
         uses: actions/upload-artifact@v4
         with:
-          name: JazyToys-Android-App
+          name: JazyToys-App
           path: bin/
-
