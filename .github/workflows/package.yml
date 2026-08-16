@@ -15,7 +15,7 @@ jobs:
           sudo apt-get install -y libffi-dev libssl-dev autoconf pkg-config
           pip install buildozer cython
           yes | buildozer init
-          sed -i 's/requirements = python3,kivy/requirements = python3,kivy/g' buildozer.spec
+          sed -i 's/requirements = python3,kivy/requirements = python3,kivy,kivymd,sdl2_ttf/g' buildozer.spec
           sed -i 's/#orientation = landscape/orientation = portrait/g' buildozer.spec
           yes | buildozer -v android debug
       - name: Save APK
