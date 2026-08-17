@@ -2,25 +2,44 @@ name: JazyToys Package
 on: [push, workflow_dispatch]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-      - name: Build Android App
+          python-version: '3.11'
+
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libffi-dev libssl-dev autoconf pkg-config libtool m4
-          pip install "buildozer==1.5.0" "cython==0.29.36"
-          yes | buildozer init
+          sudo apt-get install -y git zip unzip autoconf libtool pkg-config zlib1g-dev \
+            libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev \
+            libffi-dev libsqlite3-dev tk-dev libgdbm-compat-dev liblzma-dev \
+            lzma libbz2-dev ccache libffi-dev libssl-dev cmake openjdk-17-jdk
+
+      - name: Install Buildozer and Cython
+        run: |
+          pip install --upgrade pip
+          pip install "buildozer>=1.6.0" "cython>=3.0.0"
+
+      - name: Prepare buildozer.spec
+        run: |
+          if [ ! -f buildozer.spec ]; then
+            buildozer init
+          fi
           sed -i 's/requirements = python3,kivy/requirements = python3,kivy==2.3.0,kivymd==1.2.0,sdl2_ttf/g' buildozer.spec
           sed -i 's/#orientation = landscape/orientation = portrait/g' buildozer.spec
-          yes | buildozer -v android debug
-      - name: Save APK
+          sed -i 's/#android.accept_sdk_license = False/android.accept_sdk_license = True/g' buildozer.spec
+
+      - name: Build Android App with Buildozer
+        run: |
+          export APP_ANDROID_ACCEPT_SDK_LICENSE=1
+          buildozer -v android debug
+
+      - name: Save APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: JazyToys-App
-          path: bin/
-
+          path: bin/*.apk
