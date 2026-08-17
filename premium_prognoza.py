@@ -12,7 +12,7 @@ class JazyToysSportsAI:
     def __init__(self):
         self.ime_sistema = "JazyToys Elite AI Predictor"
         self.verzija = "3.0 Premium"
-        self.zlatni_prag_sigurnosti = 88.0  # Sve ispod ovoga se BRŠE iz VIP-a!
+        self.zlatni_prag_sigurnosti = 75.0  # Sve ispod ovoga se BRŠE iz VIP-a!
 
     def ucitaj_uzivo_podatke(self):
         print(f"\n[SINKRONIZACIJA] Povezujem se na globalne sportske servere...")
