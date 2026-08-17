@@ -24,19 +24,25 @@ jobs:
           pip install --upgrade pip
           pip install "buildozer==1.6.0" "cython>=0.29.33,<3.0.0"
 
-      - name: Prepare buildozer.spec
+      - name: Prepare buildozer.spec and Accept Licenses
         run: |
           if [ ! -f buildozer.spec ]; then
             buildozer init
           fi
           sed -i 's/requirements = python3,kivy/requirements = python3,kivy==2.3.0,kivymd==1.2.0,sdl2_ttf/g' buildozer.spec
           sed -i 's/#orientation = landscape/orientation = portrait/g' buildozer.spec
-          sed -i 's/#android.accept_sdk_license = False/android.accept_sdk_license = True/g' buildozer.spec
+          
+          # Force accept Android SDK licenses
+          mkdir -p ~/.android
+          touch ~/.android/repositories.cfg
+          export Android_HOME=$HOME/.buildozer/android/platform/android-sdk
+          mkdir -p $Android_HOME/licenses
+          echo -e "241a50a5b9be72dd4e3d027e9bc2f6112e482711\n8933bad161af4178b1185d1a37fbf41ea5269c55\n2516039d497fa34da3620a258ad77bb4a9c53398" > $Android_HOME/licenses/android-sdk-license
 
       - name: Build Android App with Buildozer
         run: |
           export APP_ANDROID_ACCEPT_SDK_LICENSE=1
-          buildozer -v android debug
+          yes | buildozer -v android debug
 
       - name: Save APK Artifact
         uses: actions/upload-artifact@v4
