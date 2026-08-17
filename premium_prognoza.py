@@ -11,8 +11,14 @@ except ImportError:
 class JazyToysSportsAI:
     def __init__(self):
         self.ime_sistema = "JazyToys Elite AI Predictor"
-        self.verzija = "3.0 Premium"
-        self.zlatni_prag_sigurnosti = 75.0  # Sve ispod ovoga se BRŠE iz VIP-a!
+        self.verzija = "3.1 Ultra Premium"
+        self.zlatni_prag_sigurnosti = 75.0  # Tvoj savršeni Darko zlatni prag!
+        
+        # SISTEM PRETPLATA I NAPLATE ZA BANKE I BINANCE
+        self.cenovnik_pretplata = {
+            "7_dana": {"cena_eur": 5, "opis": "VIP Nedeljni paket (Brzi test)"},
+            "30_dana": {"cena_eur": 15, "opis": "VIP Mesečni paket (Elitni prihod)"}
+        }
 
     def ucitaj_uzivo_podatke(self):
         print(f"\n[SINKRONIZACIJA] Povezujem se na globalne sportske servere...")
@@ -23,17 +29,13 @@ class JazyToysSportsAI:
             print("[SISTEM] Korišćenje lokalne zaštićene baze podataka.")
 
     def analiziraj_mec(self, domacin, gost, baza_procenta):
-        # AI ulaže napor i ukršta faktore: povrede, kartone, motivaciju i vremenske uslove!
         print(f"\n[AI ANALIZA] Obrađujem meč: {domacin} VS {gost}")
         time.sleep(0.5)
         
         kazneni_poeni = random.randint(1, 5)
         bonus_domaceg_terena = random.randint(3, 7)
-        
-        # Izračunavanje konačne preciznosti
         konacna_sigurnost = baza_procenta + bonus_domaceg_terena - kazneni_poeni
         
-        # Generisanje najtačnijeg rezultata na osnovu snage timova
         if konacna_sigurnost > 90:
             predvidjeni_rezultat = random.choice(["3:0", "2:0", "3:1"])
             tip = "Čist 1 (Pobeda domaćina)"
@@ -49,7 +51,6 @@ class JazyToysSportsAI:
     def pokreni_zlatni_filter(self):
         self.ucitaj_uzivo_podatke()
         
-        # Istorijska test lista mečeva za proveru sistema
         ponuda = [
             {"domacin": "Real Madrid", "gost": "Cadiz", "baza": 92},
             {"domacin": "Man. United", "gost": "Chelsea", "baza": 45},
@@ -69,7 +70,6 @@ class JazyToysSportsAI:
             print(f"|-> Predloženi tip: {tip}")
             print(f"|-> Prognoza tačnog rezultata: {rezultat}")
             
-            # GLAVNA PROVERA: Ako meč nema vrhunski procenat, leti napolje!
             if sigurnost >= self.zlatni_prag_sigurnosti:
                 print(f"[ODOBRENO] Meč prolazi u ELITNU VIP LISTU!")
                 vip_tiket.append({
@@ -79,9 +79,8 @@ class JazyToysSportsAI:
                     "procenat": sigurnost
                 })
             else:
-                print(f"[BRISAN] Meč ima visok rizik i BRŠE SE iz VIP liste!")
+                print(f"[BRISAN] Meč ima visok rizik i BRIŠE SE iz VIP liste!")
                 
-        # ISPISIVANJE KONAČNOG TRIJUMFALNOG TIKETA
         print(f"\n=======================================================")
         print(f"       KONAČAN REZULTAT JAZYTOYS ULTRA VIP TIKETA      ")
         print(f"=======================================================")
@@ -93,7 +92,10 @@ class JazyToysSportsAI:
                 print(f"🔮 TAČAN REZULTAT: {stavka['rezultat']}")
                 print(f"🛡️ SIGURNOST: {stavka['procenat']}%")
                 print(f"-------------------------------------------------------")
-            print("[USPESNO] Preprosti VIP tiket bez ijednog rizika je spreman za naplatu!")
+            print("[USPESNO] Preprosti VIP tiket je spreman za naplatu!")
+            print(f"\n[SISTEM NAPLATE ACTIVATED]")
+            print(f"-> Ponuda 1: {self.cenovnik_pretplata['7_dana']['opis']} = {self.cenovnik_pretplata['7_dana']['cena_eur']} EUR")
+            print(f"-> Ponuda 2: {self.cenovnik_pretplata['30_dana']['opis']} = {self.cenovnik_pretplata['30_dana']['cena_eur']} EUR")
         else:
             print("[OBAVESTENJE] Danas nema mečeva koji ispunjavaju Ultra VIP uslove. Čuvamo novac!")
         print(f"=======================================================\n")
@@ -101,4 +103,5 @@ class JazyToysSportsAI:
 if __name__ == "__main__":
     bot = JazyToysSportsAI()
     bot.pokreni_zlatni_filter()
+
 
